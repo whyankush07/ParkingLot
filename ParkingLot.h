@@ -19,7 +19,7 @@ private:
     std::atomic<int> ticketCounter{0};
     std::map<std::string, ParkingTicket> activeTickets;
 
-    std::string generateTicket() {
+    std::string generateTicketId() {
         return "TKT" + std::to_string(++ticketCounter);
     }
 

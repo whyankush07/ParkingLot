@@ -9,7 +9,7 @@ public:
     virtual ~Vehicle() = default;
 
     virtual VehicleType getType() const = 0;
-    const std::string &getLicence() const { return licencePlate; }
+    const std::string &getLicense() const { return licencePlate; }
 
 protected:
     VehicleType vtype;

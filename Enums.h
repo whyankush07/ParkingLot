@@ -4,7 +4,7 @@
 enum class VehicleType { BIKE, CAR, TRUCK };
 enum class SpotType { SMALL, MEDIUM, LARGE };
 
-inline std::string VehicleTypeStr(VehicleType t) {
+inline std::string vehicleTypeStr(VehicleType t) {
     switch (t) {
         case VehicleType::BIKE: return "Bike";
         case VehicleType::CAR:  return "Car";
@@ -12,7 +12,7 @@ inline std::string VehicleTypeStr(VehicleType t) {
     }
 }
 
-inline std::string SpotTypeStr(SpotType t) {
+inline std::string spotTypeStr(SpotType t) {
     switch (t) {
         case SpotType::SMALL: return "Small";
         case SpotType::MEDIUM: return "Medium";

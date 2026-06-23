@@ -19,6 +19,76 @@ void ParkingLot::addLevel(int levelId, int smallSpots, int mediumSpots, int larg
     }
 }
 
+std::string ParkingLot::parkVehicle(Vehicle& vehicle) {
+    // 1. find ParkingSpot
+    // 2. Generate Ticket
+    for (auto level: levels) {
+        ParkingSpot* spot = level.findSpotForVehicle(vehicle.getType());
+        if (spot) {
+            spot->park();
+            level.markOccupied(spot->getSpotType());
+
+
+            std::string ticketId_ = generateTicketId();
+            activeTickets.emplace(
+                ticketId_,
+                ParkingTicket(ticketId_, &vehicle, spot)
+            );
+
+            std::cout << "[ENTRY] Ticket: " << ticketId_
+                          << " | " << vehicleTypeStr(vehicle.getType())
+                          << " (" << vehicle.getLicense() << ")"
+                          << " → Spot " << spot->getSpotId()
+                          << " | Level " << level.getLevelId()
+                          << " | Entry: " << ParkingTicket::formatTime(
+                                activeTickets.at(ticketId_).getEntry())
+                          << "\n";
+
+            return ticketId_;
+        }
+    }
+    throw std::runtime_error("No available spot for " +
+                                  vehicleTypeStr(vehicle.getType()));
+}
+
+double ParkingLot::exitVehicle(const std::string& ticketId_) {
+    // 1. validate ticket
+    // 2. free spot, mark level unoccupied
+    auto it = activeTickets.find(ticketId_);
+    if (it == activeTickets.end()) {
+        throw std::runtime_error("Ticket not found: " + ticketId_);
+    }
+
+    ParkingTicket ticket = it->second;
+    if (ticket.getIsClosed()) {
+        throw std::runtime_error("Ticket already used: " + ticketId_);
+    }
+
+    ParkingSpot* spot = ticket.getSpot();
+    for (auto& level: levels) {
+        auto avail = level.getAvailability();
+
+        if (spot->getSpotId().find("L" + std::to_string(level.getLevelId())) == 0) {
+            spot->free();
+            level.markFree(spot->getSpotType());
+            break;
+        }
+    }
+
+    double fee = ticket.CloseTicket();
+
+    std::cout << "[EXIT]  Ticket: " << ticketId_
+                  << " | " << vehicleTypeStr(ticket.getVehicle()->getType())
+                  << " (" << ticket.getVehicle()->getLicense() << ")"
+                  << " | Spot " << spot->getSpotId()
+                  << " | Entry: " << ParkingTicket::formatTime(ticket.getEntry())
+                  << " | Exit: "  << ParkingTicket::formatTime(ticket.getExit())
+                  << " | Fee: ₹"  << std::fixed << std::setprecision(2) << fee
+                  << "\n";
+
+    return fee;
+}
+
 void ParkingLot::printAvailability() const {
     std::cout << "\n╔══════════════════════════════════════╗\n";
     std::cout << "║       Parking Lot Availability       ║\n";
