@@ -5,7 +5,7 @@ class ParkingSpot {
 private:
     std::string spotId;
     SpotType type;
-    bool isFree;
+    bool isFree_;
 
 public:
     ParkingSpot(std::string id, SpotType stype) : spotId(std::move(id)), type(stype) {}
@@ -17,5 +17,5 @@ public:
 
     const std::string& getSpotId() { return spotId; }
     SpotType getSpotType() { return type; }
-    bool getIsFree() { return isFree; }
+    bool isFree() { return isFree_; }
 };
