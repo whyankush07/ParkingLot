@@ -17,16 +17,19 @@ protected:
 };
 
 class Bike : public Vehicle {
+    public:
     explicit Bike(std::string plate) : Vehicle(std::move(plate), VehicleType::BIKE) {}
     VehicleType getType() const override { return VehicleType::BIKE; }
 };
 
 class Car : public Vehicle {
+    public:
     explicit Car(std::string plate) : Vehicle(std::move(plate), VehicleType::CAR) {}
     VehicleType getType() const override { return VehicleType::CAR; }
 };
 
 class Truck : public Vehicle {
+    public:
     explicit Truck(std::string plate) : Vehicle(std::move(plate), VehicleType::TRUCK) {}
     VehicleType getType() const override { return VehicleType::TRUCK; }
 };
