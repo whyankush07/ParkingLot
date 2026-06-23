@@ -2,7 +2,6 @@
 #include <vector>
 #include <map>
 #include <string>
-#include <optional>
 #include <stdexcept>
 #include "ParkingSpot.h"
 
@@ -30,7 +29,7 @@ public:
 
     int totalFreeSpots() const {
         int total = 0;
-        for (auto& [type, cnt] : freeCount) total += cnt;
+        for (auto& kv : freeCount) total += kv.second;
         return total;
     }
 };

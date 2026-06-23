@@ -8,7 +8,7 @@ private:
     bool isFree_;
 
 public:
-    ParkingSpot(std::string id, SpotType stype) : spotId(std::move(id)), type(stype) {}
+    ParkingSpot(std::string id, SpotType stype) : spotId(std::move(id)), type(stype), isFree_(true) {}
 
     bool canFit(VehicleType vt);
 

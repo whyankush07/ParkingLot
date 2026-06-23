@@ -7,8 +7,8 @@
 #include <atomic>
 #include <iostream>
 #include <iomanip>
-#include "vehicle.h"
-#include "Parkinglevel.h"
+#include "Vehicle.h"
+#include "ParkingLevel.h"
 #include "ParkingTicket.h"
 
 class ParkingLot {

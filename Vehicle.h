@@ -3,17 +3,16 @@
 
 // abstract class
 class Vehicle {
+protected:
+    VehicleType vtype;
+    std::string licencePlate;
 public:
-    Vehicle(std::string plate, VehicleType type) : licencePlate(std::move(plate)), vtype(type) {};
+    Vehicle(std::string plate, VehicleType type) : vtype(type), licencePlate(std::move(plate)) {};
 
     virtual ~Vehicle() = default;
 
     virtual VehicleType getType() const = 0;
     const std::string &getLicense() const { return licencePlate; }
-
-protected:
-    VehicleType vtype;
-    std::string licencePlate;
 };
 
 class Bike : public Vehicle {
