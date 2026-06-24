@@ -62,6 +62,46 @@ int main() {
  
     lot.printAvailability();
  
+    separator("Edge Case: Fill all truck spots");
+ 
+    Truck t2("MH-03-TR-3002");
+    Truck t3("MH-03-TR-3003");
+    Truck t4("MH-03-TR-3004");
+    Truck t5("MH-03-TR-3005");  // should fail — no large spots
+ 
+    std::vector<std::string> truckTickets;
+    for (auto* t : {&t2, &t3, &t4}) {
+        try {
+            truckTickets.push_back(lot.parkVehicle(*t));
+        } catch (const std::exception& e) {
+            std::cerr << "[EXPECTED ERROR] " << e.what() << "\n";
+        }
+    }
+ 
+    std::cout << "\nTrying to park 4th truck (no LARGE spots left):\n";
+    try {
+        lot.parkVehicle(t5);
+    } catch (const std::exception& e) {
+        std::cerr << "[EXPECTED ERROR] " << e.what() << "\n";
+    }
+ 
+    lot.printAvailability();
+ 
+    for (const auto& tid : truckTickets)
+        lot.exitVehicle(tid);
+ 
+    // ── Edge case: double-exit same ticket ────────────
+    separator("Edge Case: Double-exit same ticket");
+    Bike b3("KA-01-BK-9001");
+    std::string bid = lot.parkVehicle(b3);
+    lot.exitVehicle(bid);
+    try {
+        lot.exitVehicle(bid);  // should throw
+    } catch (const std::exception& e) {
+        std::cerr << "[EXPECTED ERROR] " << e.what() << "\n";
+    }
+ 
+    separator("All scenarios complete ✓");
 
     return 0;
 }
